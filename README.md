@@ -30,6 +30,22 @@ and have an end game button
 	Q. users will be able to grab a special object to win the whole game
 	R. this will then stop the game displaying the useres name saying congradulations you have won 
 
+
+quick game
+
+	1. the user will click play 
+	2. a snake will appear on the screen 
+	3. user will click up arrow key to move the snake up
+	4. user will click down arrow key to move it down
+	5. user will click left arrow key to move left
+	6. user will click right arrow key to move right 
+	7. user will have an object they have to touch to get a point 
+	8. user will have to avoid the walls to not die
+	9. user score will continue to rise the more they collect 
+	10. when they reach a certain score they win the whole game 
+	11. a win screen appears saying congradulations
+
+
 	
 
 
