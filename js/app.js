@@ -16,41 +16,47 @@ const game = {
 	//
 	firstCardFlipped: false,
 	firstCard: '',
+	secondCard: '',
+	// guessed: '',
+	
 
 
 	flipCard: function(event){
-		console.log(event.currentTarget); // <-- see what card was clicked in dataset -- 
-		if (event.querySelector('.backOfCard').hidden === false) {
-			event.querySelector('.backOfCard').hidden = true
-			event.querySelector('.frontOfCard').hidden = false
+		// console.log(event.currentTarget); // <-- see what card was clicked in dataset -- 
+		const back = event.currentTarget.querySelector('.frontOfCard')
+		if (event.path[1].querySelector('.backOfCard').hidden === false) {
+			event.path[1].querySelector('.backOfCard').hidden = true
+			event.path[1].querySelector('.frontOfCard').hidden = false
+			// this.firstCard.push(frontOfCard.dataCard)
 		}
 		else {
-			event.querySelector('.backOfCard').hidden = false
-			event.querySelector('.frontOfCard').hidden = true
+			event.path[1].querySelector('.backOfCard').hidden = false
+			event.path[1].querySelector('.frontOfCard').hidden = true
 		}
 		// console.log("i was clicked")
 
-		// if(!firstCardFlipped){
-		// 	firstCardFlipped = event.currentTarget
-		// 	console.log(firstCardFlipped)
-
-		// 	//fist card has been flipped
-
-		// 	// compoare
-		// }
+		if(back.hidden === true){
+			//fist card has been flipped
+			this.firstCard = event.currentTarget
+			this.firstCardFlipped = true
+			console.log(this.firstCard)
+			console.log(this.firstCardFlipped);
+			// compore
+			game.compareCards()
+		}
 
 	},
 
 
 	compareCards: function(att){
-		// if att is same att cards = correct
-		// if (att === att){
-		// return true
+		// const attTarget = att.querySelector('.backOfCard')
+		if(this.firstCard === this.firstCard){
+			
 
-		// }
 
 	
-		console.log(att);
+			// console.log(att);
+		}
 
 
 	}
@@ -59,16 +65,15 @@ const game = {
 // replace this with one listener -- use event.target to figure out what was clicked
 
 
-const cardDiv = document.querySelector('.memory')
-// for(let i = 0; i < cardDiv.length; i++){
-	cardDiv.addEventListener('click', (event) =>{
-		game.flipCard(event.currentTarget)
-		console.log(event.currentTarget)
+const cardDiv = document.querySelectorAll('.game')
+for(let i = 0; i < cardDiv.length; i++){
+	cardDiv[i].addEventListener('click', (event) =>{
+		game.flipCard(event)
 		//const target = event.target
-		//game.compareCards(cardDiv[i].getAttribute('data-card'))
+		// game.compareCards(cardDiv[i].getAttribute('data-card'))
 			
 	})
-// }
+}
 
 
 
