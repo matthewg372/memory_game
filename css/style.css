@@ -57,3 +57,7 @@ img {
 
 }
 
+.display{
+	display: flex;
+}
+
