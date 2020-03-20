@@ -24,66 +24,105 @@ const jokerOfClubs = document.querySelector('#JokerOfClubs')
 // }
 const game = {
 
-    score: 0,
+	multiplayer: false,
+    scorePlayer1: 0,
+    scorePlayer2: 0,
     rounds: 0,
     firstCardFlipped: false,
     secondCardFlipped: false,
     firstCard: '',
     secondCard: '',
     timeElapsed: 0,
-    // guessed: '',
+    guessed: false,
+
+    ShuffleAtStart: function(){
+    	const shuffle = document.querySelectorAll('.game')
+    	for(let i = 0; i < shuffle.length; i++){
+    		let randomCards = Math.floor(Math.random() * 12)
+    			shuffle[i].style.order = randomCards
+    			
+    	}
+
+    },
 
 
     flipCard: function(containerDiv) {
         const back = containerDiv.querySelector('.backOfCard')
-        console.log(back)
         const front = containerDiv.querySelector('.frontOfCard')
-        console.log(front)
         if (front.hidden === false) {
             front.hidden = true
             back.hidden = false
+            this.guessed = true
         } else {
             front.hidden = false
             back.hidden = true
         }
-        if (front.hidden === true) {
-            this.firstCard = containerDiv
+        if (this.firstCardFlipped === false) {
             this.firstCardFlipped = true
-        } else if (this.firstCardFlipped === true) {
+            this.firstCard = containerDiv
+        } else if (this.guessed === true) {
             this.secondCardFlipped = true
             this.secondCard = containerDiv
             game.compareCards()
         }
+
     },
+
     compareCards: function() {
     	console.log("compare");
         const printRounds = document.querySelector('#score')
-        if (this.firstCard === this.secondCard) {
-            this.score++
-            printRounds.innerText = this.score
-            // game.rightGuess()
-        } else if (this.firstCard != this.secondCard) {
+        if(this.firstCard.id === this.secondCard.id) {
+            this.scorePlayer1++
+            printRounds.innerText = this.scorePlayer1
+            game.rightGuess()
+        }else if(this.firstCard.id != this.secondCard.id) {
             game.wrongGuessFlipBack()
         }
     },
-    wrongGuessFlipBack: function() {
-    	const flip = eventTarget.querySelector('.backOfCard')
-        const flip2 = eventTarget.querySelector('.frontOfCard')
+    wrongGuessFlipBack: function(containerDiv) {
+    	const flip = document.querySelector('.backOfCard')
+        const flip2 = document.querySelector('.frontOfCard')
         if (this.firstCardFlipped === true) {
-            this.firstCardFlipped = false
-            flip2.hidden = false
+        	flip2.hidden = false
             flip.hidden = true
+            console.log('wrong');
         }
         if (this.secondCardFlipped === true) {
-            this.secondCardFlipped = false
             flip2.hidden = false
             flip.hidden = true
-            game.flipCard()
+            game.reset()
+            // game.flipCard()
+
         }
     },
-    // rightGuess: function(){
-    // change both to hidden
-    // },
+    reset: function(){
+    this.firstCardFlipped = false
+    this.guessed = false
+    this.firstCard = ''
+    this.secondCard = ''
+    this.secondCardFlipped = false
+
+    },
+    rightGuess: function(){
+    	console.log("right");
+    	this.firstCard.style.opacity = '0'
+    	this.secondCard.style.opacity = '0'
+    	game.reset()
+    },
+
+
+    winOrLose: function(){
+    	if{
+    		this.scorePlayer1 === 6
+    		this.timeElapsed === 30
+
+    	}
+
+    },
+    player2: function(){
+    },
+
+
     start: function() {
         this.intervalID = setInterval(() => {
             this.timeElapsed++
@@ -100,6 +139,9 @@ const game = {
         }
         p.innerHTML = `Game time: ${mm}:${ss}`
     },
+    multiplayerStart: function(){
+    	multiplayer = true
+    }
 }
 
 const container = document.querySelector('.memory')
@@ -116,8 +158,27 @@ nameInput.addEventListener('submit', (event) => {
     // const target = event.currentTarget
     // game.flipCard()
     game.start()
+    game.ShuffleAtStart()
 })
 
+const player = document.querySelector('#single')
+player.addEventListener('click', (event) => {
+    event.preventDefault()
+    // const target = event.currentTarget
+    // game.flipCard()
+    game.start()
+    game.ShuffleAtStart()
+})
+
+const duoPlayer = document.querySelector('#duo')
+duoPlayer.addEventListener('click', (event) => {
+    event.preventDefault()
+    // const target = event.currentTarget
+    // game.flipCard()
+    game.start()
+    game.ShuffleAtStart()
+    game.multiplayerStart()
+})
 
 
 

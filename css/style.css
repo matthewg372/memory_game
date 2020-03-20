@@ -60,4 +60,10 @@ img {
 .display{
 	display: flex;
 }
+footer {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	border-radius: 5%;
 
+}
