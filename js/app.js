@@ -1,30 +1,8 @@
 console.log("hello")
 
-
-const queenOfHearts = document.querySelector("#QueenOfHearts")
-const kingOfHearts = document.querySelector("#KingOfHearts")
-
-
-
-
-
-
-const jokerOfClubs = document.querySelector('#JokerOfClubs')
-
-// class Player1{
-// 	constructor(score, rounds){
-// 		this.score = 0
-// 		this.rounds = 0
-
-// 	}
-// }
-//class player2{
-// this.score2
-//this.rounds2
-// }
 const game = {
 
-	multiplayer: false,
+    multiplayer: false,
     scorePlayer1: 0,
     scorePlayer2: 0,
     rounds: 0,
@@ -33,15 +11,16 @@ const game = {
     firstCard: '',
     secondCard: '',
     timeElapsed: 0,
+    timeElapsed2: 0,
     guessed: false,
 
-    ShuffleAtStart: function(){
-    	const shuffle = document.querySelectorAll('.game')
-    	for(let i = 0; i < shuffle.length; i++){
-    		let randomCards = Math.floor(Math.random() * 12)
-    			shuffle[i].style.order = randomCards
-    			
-    	}
+    ShuffleAtStart: function() {
+        const shuffle = document.querySelectorAll('.game')
+        for (let i = 0; i < shuffle.length; i++) {
+            let randomCards = Math.floor(Math.random() * 12)
+            shuffle[i].style.order = randomCards
+
+        }
 
     },
 
@@ -65,68 +44,107 @@ const game = {
             this.secondCard = containerDiv
             game.compareCards()
         }
+        else if(this.rounds === 1)
+        	// this.firstCard === true
+
+        	game.compareCards2()
+
 
     },
 
     compareCards: function() {
-    	console.log("compare");
         const printRounds = document.querySelector('#score')
-        if(this.firstCard.id === this.secondCard.id) {
+        if (this.firstCard.id === this.secondCard.id) {
             this.scorePlayer1++
-            printRounds.innerText = this.scorePlayer1
+            printRounds.innerText = `first player: ${this.scorePlayer1}`
             game.rightGuess()
-        }else if(this.firstCard.id != this.secondCard.id) {
-            game.wrongGuessFlipBack()
-        }
-    },
-    wrongGuessFlipBack: function(containerDiv) {
-    	const flip = document.querySelector('.backOfCard')
-        const flip2 = document.querySelector('.frontOfCard')
-        if (this.firstCardFlipped === true) {
-        	flip2.hidden = false
-            flip.hidden = true
-            console.log('wrong');
-        }
-        if (this.secondCardFlipped === true) {
-            flip2.hidden = false
-            flip.hidden = true
+        } else if (this.firstCard.id != this.secondCard.id) {
             game.reset()
-            // game.flipCard()
+        }
+        
+    },
+    // compareCards2: function() {
+    //     const printRounds = document.querySelector('#score2')
+    //     if (this.firstCard.id === this.secondCard.id) {
+    //         this.scorePlayer2++
+    //         printRounds.innerText = `second player: ${this.scorePlayer2}`
+    //         // game.rightGuess()
+    //     } else if (this.firstCard.id != this.secondCard.id) {
+    //         game.reset()
+    //     }
+    //     // game.winOrLose()
+    // },
+    reset: function() {
+    	const back = this.firstCard.querySelector('.backOfCard')
+    	const front = this.firstCard.querySelector('.frontOfCard')
+    	const back1 = this.secondCard.querySelector('.backOfCard')
+    	const front1 = this.secondCard.querySelector('.frontOfCard')
+      	setTimeout(function(){
+        	back.hidden = true
+        	front.hidden = false
+        	back1.hidden = true
+        	front1.hidden = false
+        	// game.reset()
+		}, 700);
+ 			 
+        this.firstCardFlipped = false
+        this.secondCardFlipped = false
+        this.guessed = false
+        this.firstCard = ''
+        this.secondCard = ''
+
+    },
+    rightGuess: function() {
+        console.log("right");
+        this.firstCard.style.opacity = '0'
+        this.secondCard.style.opacity = '0'
+        game.reset()
+
+    },
+    winOrLose: function() {
+        if (this.scorePlayer1 === 6) {
+            const memory = document.querySelectorAll('.game')
+            for (let i = 0; i < memory.length; i++) {
+                memory[i].style.opacity = '100'
+            
+        		}if(this.multiplayer === true){
+        			this.rounds++
+        			round.innerText = `rounds: ${this.rounds}`
+        }
+            // game.reset()
+
 
         }
     },
-    reset: function(){
-    this.firstCardFlipped = false
-    this.guessed = false
-    this.firstCard = ''
-    this.secondCard = ''
-    this.secondCardFlipped = false
+    player2: function() {},
 
-    },
-    rightGuess: function(){
-    	console.log("right");
-    	this.firstCard.style.opacity = '0'
-    	this.secondCard.style.opacity = '0'
-    	game.reset()
-    },
+    // endgame: function() {
+    // 	const alert = document.querySelector('.model-body')
+    // 	const round = document.querySelector('#rounds')
+    //     	// alert.style.visibility = "visiable"
+    //     if (this.scorePlayer1 === 6) {
+    //     	alert.hidden = false
+    //     	alert.innerText = "you win"
+    //     	clearInterval(this.intervalID)
+    //     	// this.scorePlayer1 = 0
+            
 
 
-    winOrLose: function(){
-    	if{
-    		this.scorePlayer1 === 6
-    		this.timeElapsed === 30
+    //     } else if (this.timeElapsed === 30) {
+    //     	alert.hidden = false
+    //         alert.innerText = "you lose"
+    //         clearInterval(this.intervalID)
+    //   }  
+    //     	game.winOrLose()
 
-    	}
-
-    },
-    player2: function(){
-    },
+    // },
 
 
     start: function() {
         this.intervalID = setInterval(() => {
             this.timeElapsed++
             this.printTime()
+            this.endgame()
         }, 1000)
     },
     printTime: function() {
@@ -139,33 +157,39 @@ const game = {
         }
         p.innerHTML = `Game time: ${mm}:${ss}`
     },
-    multiplayerStart: function(){
-    	multiplayer = true
+    //     start2: function() {
+    //     this.intervalID = setInterval(() => {
+    //         this.timeElapsed++
+    //         this.printTime()
+    //         this.endgame()
+    //     }, 1000)
+    // },
+    // printTime: function() {
+    //     const seconds = this.timeElapsed
+    //     const p = document.querySelector('#timer2')
+    //     let mm = Math.floor(seconds / 60)
+    //     let ss = seconds - (mm * 60)
+    //     if (ss < 30) {
+    //         ss = "0" + ss
+    //     }
+    //     p.innerHTML = `Game time: ${mm}:${ss}`
+    // },
+    multiplayerStart: function() {
+        this.multiplayer = true
     }
 }
 
 const container = document.querySelector('.memory')
 container.addEventListener('click', (event) => {
-	console.log([event.target]);
-	game.flipCard(event.target.parentNode)
+    console.log([event.target]);
+    game.flipCard(event.target.parentNode)
+
 })
 
-
-
-const nameInput = document.querySelector('#userName')
-nameInput.addEventListener('submit', (event) => {
-    event.preventDefault()
-    // const target = event.currentTarget
-    // game.flipCard()
-    game.start()
-    game.ShuffleAtStart()
-})
 
 const player = document.querySelector('#single')
 player.addEventListener('click', (event) => {
     event.preventDefault()
-    // const target = event.currentTarget
-    // game.flipCard()
     game.start()
     game.ShuffleAtStart()
 })
@@ -173,20 +197,14 @@ player.addEventListener('click', (event) => {
 const duoPlayer = document.querySelector('#duo')
 duoPlayer.addEventListener('click', (event) => {
     event.preventDefault()
-    // const target = event.currentTarget
-    // game.flipCard()
     game.start()
     game.ShuffleAtStart()
     game.multiplayerStart()
 })
 
 
-
-
-
-
-
-
-
-
-
+const resetButton = document.querySelector('#reset')
+resetButton.addEventListener('click', (event) => {
+    event.preventDefault()
+	game.endgame()
+})

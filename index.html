@@ -5,14 +5,13 @@
 	<title></title>
 </head>
 <body >
-	<form id="userName">
-		<input id="userNameInput"type="" name="">
-		<button id="insertName"> Add name</button>
-	</form>
 	<div id="display">
 		<p id="timer"></p>
 		<p id='rounds'></p>
-		<p id='score'></p>
+		<p id='score'>first player:</p>
+		<p id="timer2"></p>
+		<p id='rounds'></p>
+		<p id='score2'>second player:</p>
 	</div>
 	<section class="memory">
 		<div class="game" id="QueenOfHearts" data-card='queen'>
@@ -64,10 +63,14 @@
 			<img class="frontOfCard" src="image/5fDIAXD - imgur.png"></img>
 		</div>
 	</section>
+	<div class="model-body">
+		win or lose
+		<button id="reset">reset game</button>
+	</div>
+	<div class="active" id="overlay"></div>
 	<footer>
 		<button id="single">single player</button>
 		<button id="duo"> duo player</button>
-		
 	</footer>
 
 		
