@@ -1,4 +1,45 @@
+
+// class Player {
+// 	constructor(numb){
+// 		this.playerNum = numb;
+// 		this.time = 0;
+// 		this.score = 0
+// 	}
+// }
+
+// // const newPlayer = new Player(1)
+// // console.log(newPlayer);
+
+// // const OtherNewPlayer = new Player(2)
+// // console.log(OtherNewPlayer);
+
+// const game ={
+// 	multiplayer: false,
+// 	rounds: 0,
+// 	firstCardFlipped
+// 	secondCardFlipped
+// 	firstCard
+// 	secondCard
+// 	players: []
+// 	activePlayer: null
+// }
+
+// //if you use a players array this is how to get them in there
+// //const OtherNewPlayer = new Player(2)
+// //players.push(OtherNewPlayer)
+
+
+// //if you use activePlayer this is what to do
+// const newPlayer = new Player(1)
+// this.activePlayer = newPlayer
+
+// //your gameplay function, after the player has picked two cards, switches the active player to the other player
+// activePlayer.score += 1
+// activePlayer.time++
+
+
 console.log("hello")
+
 
 const game = {
 
@@ -19,12 +60,8 @@ const game = {
         for (let i = 0; i < shuffle.length; i++) {
             let randomCards = Math.floor(Math.random() * 12)
             shuffle[i].style.order = randomCards
-
         }
-
     },
-
-
     flipCard: function(containerDiv) {
         const back = containerDiv.querySelector('.backOfCard')
         const front = containerDiv.querySelector('.frontOfCard')
@@ -44,24 +81,29 @@ const game = {
             this.secondCard = containerDiv
             game.compareCards()
         }
-        else if(this.rounds === 1)
-        	// this.firstCard === true
-
-        	game.compareCards2()
-
-
     },
+    switchActivePlayer: function(){
+    	if(activePlayer === players[0]){
+    		this.activePlayer = players[1]
+    	} else {
+    		this.activePlayer = players[0]
+    	}
+    }
 
     compareCards: function() {
         const printRounds = document.querySelector('#score')
         if (this.firstCard.id === this.secondCard.id) {
             this.scorePlayer1++
+            this.activePlayer.score++
             printRounds.innerText = `first player: ${this.scorePlayer1}`
             game.rightGuess()
-        } else if (this.firstCard.id != this.secondCard.id) {
+            //this.switchActivePlayer()
+            //this.stopTime(this.activePlayer){
+            	//this.activePlayer.time = this.activePLayer.time
+            	//}
+        } else if(this.firstCard.id != this.secondCard.id) {
             game.reset()
         }
-        
     },
     compareCards2: function() {
         const printRounds = document.querySelector('#score2')
@@ -75,27 +117,23 @@ const game = {
         // game.winOrLose()
     },
     reset: function() {
-    	const back = this.firstCard.querySelector('.backOfCard')
-    	const front = this.firstCard.querySelector('.frontOfCard')
-    	const back1 = this.secondCard.querySelector('.backOfCard')
-    	const front1 = this.secondCard.querySelector('.frontOfCard')
-      	setTimeout(function(){
-        	back.hidden = true
-        	front.hidden = false
-        	back1.hidden = true
-        	front1.hidden = false
-        	// game.reset()
-		}, 700);
- 			 
+        const back = this.firstCard.querySelector('.backOfCard')
+        const front = this.firstCard.querySelector('.frontOfCard')
+        const back1 = this.secondCard.querySelector('.backOfCard')
+        const front1 = this.secondCard.querySelector('.frontOfCard')
+        setTimeout(function() {
+            back.hidden = true
+            front.hidden = false
+            back1.hidden = true
+            front1.hidden = false
+        }, 600);
         this.firstCardFlipped = false
         this.secondCardFlipped = false
         this.guessed = false
         this.firstCard = ''
         this.secondCard = ''
-
     },
     rightGuess: function() {
-        console.log("right");
         this.firstCard.style.opacity = '0'
         this.secondCard.style.opacity = '0'
         game.reset()
@@ -106,40 +144,29 @@ const game = {
             const memory = document.querySelectorAll('.game')
             for (let i = 0; i < memory.length; i++) {
                 memory[i].style.opacity = '100'
-            
-        		}if(this.multiplayer === true){
-        			this.rounds++
-        			round.innerText = `rounds: ${this.rounds}`
-        }
-            // game.reset()
-
-
+            }
+            if (this.multiplayer === true) {
+                this.rounds++
+                round.innerText = `rounds: ${this.rounds}`
+            }
         }
     },
     player2: function() {},
-
     endgame: function() {
-    	const alert = document.querySelector('.model-body')
-    	const round = document.querySelector('#rounds')
-        	// alert.style.visibility = "visiable"
+        const alert = document.querySelector('.model-body')
+        const round = document.querySelector('#rounds')
+        alert.style.visibility = "visiable"
         if (this.scorePlayer1 === 6) {
-        	alert.hidden = false
-        	alert.innerText = "you win"
-        	clearInterval(this.intervalID)
-        	// this.scorePlayer1 = 0
-            
-
-
+            alert.hidden = false
+            alert.innerText = "you win"
+            clearInterval(this.intervalID)
         } else if (this.timeElapsed === 30) {
-        	alert.hidden = false
+            alert.hidden = false
             alert.innerText = "you lose"
             clearInterval(this.intervalID)
-      }  
-        	game.winOrLose()
-
+        }
+        game.winOrLose()
     },
-
-
     start: function() {
         this.intervalID = setInterval(() => {
             this.timeElapsed++
@@ -174,6 +201,10 @@ const game = {
     //     }
     //     p.innerHTML = `Game time: ${mm}:${ss}`
     // },
+    reload: function() {
+        location.reload()
+
+    },
     multiplayerStart: function() {
         this.multiplayer = true
     }
@@ -181,7 +212,6 @@ const game = {
 
 const container = document.querySelector('.memory')
 container.addEventListener('click', (event) => {
-    console.log([event.target]);
     game.flipCard(event.target.parentNode)
 
 })
@@ -206,5 +236,5 @@ duoPlayer.addEventListener('click', (event) => {
 const resetButton = document.querySelector('#reset')
 resetButton.addEventListener('click', (event) => {
     event.preventDefault()
-	game.endgame()
+    game.reload()
 })
