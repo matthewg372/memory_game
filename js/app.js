@@ -63,17 +63,17 @@ const game = {
         }
         
     },
-    // compareCards2: function() {
-    //     const printRounds = document.querySelector('#score2')
-    //     if (this.firstCard.id === this.secondCard.id) {
-    //         this.scorePlayer2++
-    //         printRounds.innerText = `second player: ${this.scorePlayer2}`
-    //         // game.rightGuess()
-    //     } else if (this.firstCard.id != this.secondCard.id) {
-    //         game.reset()
-    //     }
-    //     // game.winOrLose()
-    // },
+    compareCards2: function() {
+        const printRounds = document.querySelector('#score2')
+        if (this.firstCard.id === this.secondCard.id) {
+            this.scorePlayer2++
+            printRounds.innerText = `second player: ${this.scorePlayer2}`
+            // game.rightGuess()
+        } else if (this.firstCard.id != this.secondCard.id) {
+            game.reset()
+        }
+        // game.winOrLose()
+    },
     reset: function() {
     	const back = this.firstCard.querySelector('.backOfCard')
     	const front = this.firstCard.querySelector('.frontOfCard')
@@ -118,26 +118,26 @@ const game = {
     },
     player2: function() {},
 
-    // endgame: function() {
-    // 	const alert = document.querySelector('.model-body')
-    // 	const round = document.querySelector('#rounds')
-    //     	// alert.style.visibility = "visiable"
-    //     if (this.scorePlayer1 === 6) {
-    //     	alert.hidden = false
-    //     	alert.innerText = "you win"
-    //     	clearInterval(this.intervalID)
-    //     	// this.scorePlayer1 = 0
+    endgame: function() {
+    	const alert = document.querySelector('.model-body')
+    	const round = document.querySelector('#rounds')
+        	// alert.style.visibility = "visiable"
+        if (this.scorePlayer1 === 6) {
+        	alert.hidden = false
+        	alert.innerText = "you win"
+        	clearInterval(this.intervalID)
+        	// this.scorePlayer1 = 0
             
 
 
-    //     } else if (this.timeElapsed === 30) {
-    //     	alert.hidden = false
-    //         alert.innerText = "you lose"
-    //         clearInterval(this.intervalID)
-    //   }  
-    //     	game.winOrLose()
+        } else if (this.timeElapsed === 30) {
+        	alert.hidden = false
+            alert.innerText = "you lose"
+            clearInterval(this.intervalID)
+      }  
+        	game.winOrLose()
 
-    // },
+    },
 
 
     start: function() {
