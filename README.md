@@ -13,7 +13,7 @@
 	8. user must match all of the cards to win 
 	9. but the user will have a certain amount of time before they lose the game
 	10. if user wins it will say congradulations
-	11. if user loses it will say you almost had it press play to try again
+	11. if user loses it will say you almost had it press reset game to try again
 
 
 

@@ -56,10 +56,16 @@ img {
 	border-radius: 5px;
 
 
+
 }
 
-.display{
+#display{
 	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	position: relative;
+	border-radius: 5px;
+	width: 30vw;
 }
 footer {
 	display: flex;
@@ -83,7 +89,6 @@ footer {
 	max-width: 100%;
 	text-align: center;
 	font-size: 30px;
-	visibility: hidden;
 }
 
 #overlay{

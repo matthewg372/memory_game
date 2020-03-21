@@ -1,8 +1,8 @@
 
 class Player {
 	constructor(numb){
-		this.playerNum = numb;
-		this.time = 0;
+		this.playerNum = numb
+		this.time = 0
 		this.score = 0
 		// this.players = players
 	}
@@ -29,7 +29,7 @@ const game = {
     
 	newPlayer: function(){
 
-		const newPlayer = new Player(0)
+		const newPlayer = new Player(1)
 		this.activePlayer = newPlayer
 		this.players.push(newPlayer)
 		
@@ -37,7 +37,7 @@ const game = {
 	},
 	OtherNewPlayer: function(){
 
-		const otherNewPlayer = new Player(1)
+		const otherNewPlayer = new Player(2)
 		this.activePlayer = otherNewPlayer
 		this.players.push(otherNewPlayer)
 	},
@@ -74,29 +74,26 @@ const game = {
          game.compareCards2()
     },
     switchActivePlayer: function(){
+        const printRounds = document.querySelector('#score')
+    	const second = document.querySelector('#score2')
     	if(this.activePlayer === this.players[0]){
     		this.activePlayer = this.players[1]
-    		console.log(this.activePlayer = this.players[1]);
+            second.innerText = `second player: ${this.activePlayer.score}`
     	} else {
     		this.activePlayer = this.players[0]
-    		console.log(this.activePlayer = this.players[0]);
+            printRounds.innerText = `first player: ${this.activePlayer.score}`
     	}
     },
 
     compareCards: function() {
-        const printRounds = document.querySelector('#score')
-    	const second = document.querySelector('#score2')
         if (this.firstCard.id === this.secondCard.id) {
-            this.activePlayer.score++
-            printRounds.innerText = `first player: ${this.activePlayer.score}`
             game.rightGuess()
             if(this.multiplayer === true){
+            this.activePlayer.score++
             this.switchActivePlayer()
-            console.log('switched');
-	            
-
             }
         } else if(this.firstCard.id != this.secondCard.id) {
+        	this.switchActivePlayer()
             game.reset()
         }
     },
@@ -125,37 +122,44 @@ const game = {
 
     },
     winOrLose: function() {
-        if (this.scorePlayer1 === 6) {
+        if (this.activePlayer.score === 6) {
             const memory = document.querySelectorAll('.game')
             for (let i = 0; i < memory.length; i++) {
                 memory[i].style.opacity = '100'
-            }
-            if (this.multiplayer === true) {
-                this.rounds++
-                round.innerText = `rounds: ${this.rounds}`
             }
         }
     },
     endgame: function() {
         const alert = document.querySelector('.model-body')
         const round = document.querySelector('#rounds')
-        alert.style.visibility = "visiable"
-        if (this.activePlayer.score === 3) {
+        if(this.multiplayer === true){
+        	if (this.activePlayer.score === 3) {
             alert.hidden = false
-            alert.innerText = "you win"
+            alert.innerText = ` player ${this.activePlayer.playerNum} \n you won`
             clearInterval(this.intervalID)
-        } else if (this.timeElapsed === 30) {
+
+        }
+        }else if(this.multiplayer === false){
+        	if(this.activePlayer.score === 6){
+
+        		alert.hidden = false
+            	alert.innerText = "you won"
+            	clearInterval(this.intervalID)
+        	}
+        }
+         else if (this.timeElapsed === 30) {
             alert.hidden = false
             alert.innerText = "you lose"
             clearInterval(this.intervalID)
+        	game.winOrLose()
         }
-        game.winOrLose()
     },
     start: function() {
         this.intervalID = setInterval(() => {
             this.timeElapsed++
             this.printTime()
             this.endgame()
+            this.switchActivePlayer()
         }, 1000)
     },
     printTime: function() {
