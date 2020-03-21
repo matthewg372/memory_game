@@ -1,41 +1,12 @@
 
-// class Player {
-// 	constructor(numb){
-// 		this.playerNum = numb;
-// 		this.time = 0;
-// 		this.score = 0
-// 	}
-// }
-
-// // const newPlayer = new Player(1)
-// // console.log(newPlayer);
-
-// // const OtherNewPlayer = new Player(2)
-// // console.log(OtherNewPlayer);
-
-// const game ={
-// 	multiplayer: false,
-// 	rounds: 0,
-// 	firstCardFlipped
-// 	secondCardFlipped
-// 	firstCard
-// 	secondCard
-// 	players: []
-// 	activePlayer: null
-// }
-
-// //if you use a players array this is how to get them in there
-// //const OtherNewPlayer = new Player(2)
-// //players.push(OtherNewPlayer)
-
-
-// //if you use activePlayer this is what to do
-// const newPlayer = new Player(1)
-// this.activePlayer = newPlayer
-
-// //your gameplay function, after the player has picked two cards, switches the active player to the other player
-// activePlayer.score += 1
-// activePlayer.time++
+class Player {
+	constructor(numb){
+		this.playerNum = numb;
+		this.time = 0;
+		this.score = 0
+		// this.players = players
+	}
+}
 
 
 console.log("hello")
@@ -44,8 +15,6 @@ console.log("hello")
 const game = {
 
     multiplayer: false,
-    scorePlayer1: 0,
-    scorePlayer2: 0,
     rounds: 0,
     firstCardFlipped: false,
     secondCardFlipped: false,
@@ -54,6 +23,27 @@ const game = {
     timeElapsed: 0,
     timeElapsed2: 0,
     guessed: false,
+	players: [],
+	activePlayer: null,
+
+    
+	newPlayer: function(){
+
+		const newPlayer = new Player(0)
+		this.activePlayer = newPlayer
+		this.players.push(newPlayer)
+		
+
+	},
+	OtherNewPlayer: function(){
+
+		const otherNewPlayer = new Player(1)
+		this.activePlayer = otherNewPlayer
+		this.players.push(otherNewPlayer)
+	},
+
+
+
 
     ShuffleAtStart: function() {
         const shuffle = document.querySelectorAll('.game')
@@ -80,42 +70,37 @@ const game = {
             this.secondCardFlipped = true
             this.secondCard = containerDiv
             game.compareCards()
-        }
+        }else if(this.multiplayer === false)
+         game.compareCards2()
     },
     switchActivePlayer: function(){
-    	if(activePlayer === players[0]){
-    		this.activePlayer = players[1]
+    	if(this.activePlayer === this.players[0]){
+    		this.activePlayer = this.players[1]
+    		console.log(this.activePlayer = this.players[1]);
     	} else {
-    		this.activePlayer = players[0]
+    		this.activePlayer = this.players[0]
+    		console.log(this.activePlayer = this.players[0]);
     	}
-    }
+    },
 
     compareCards: function() {
         const printRounds = document.querySelector('#score')
+    	const second = document.querySelector('#score2')
         if (this.firstCard.id === this.secondCard.id) {
-            this.scorePlayer1++
             this.activePlayer.score++
-            printRounds.innerText = `first player: ${this.scorePlayer1}`
+            printRounds.innerText = `first player: ${this.activePlayer.score}`
             game.rightGuess()
-            //this.switchActivePlayer()
-            //this.stopTime(this.activePlayer){
-            	//this.activePlayer.time = this.activePLayer.time
-            	//}
+            if(this.multiplayer === true){
+            this.switchActivePlayer()
+            console.log('switched');
+	            
+
+            }
         } else if(this.firstCard.id != this.secondCard.id) {
             game.reset()
         }
     },
-    compareCards2: function() {
-        const printRounds = document.querySelector('#score2')
-        if (this.firstCard.id === this.secondCard.id) {
-            this.scorePlayer2++
-            printRounds.innerText = `second player: ${this.scorePlayer2}`
-            // game.rightGuess()
-        } else if (this.firstCard.id != this.secondCard.id) {
-            game.reset()
-        }
-        // game.winOrLose()
-    },
+
     reset: function() {
         const back = this.firstCard.querySelector('.backOfCard')
         const front = this.firstCard.querySelector('.frontOfCard')
@@ -151,12 +136,11 @@ const game = {
             }
         }
     },
-    player2: function() {},
     endgame: function() {
         const alert = document.querySelector('.model-body')
         const round = document.querySelector('#rounds')
         alert.style.visibility = "visiable"
-        if (this.scorePlayer1 === 6) {
+        if (this.activePlayer.score === 3) {
             alert.hidden = false
             alert.innerText = "you win"
             clearInterval(this.intervalID)
@@ -222,6 +206,7 @@ player.addEventListener('click', (event) => {
     event.preventDefault()
     game.start()
     game.ShuffleAtStart()
+    game.newPlayer()
 })
 
 const duoPlayer = document.querySelector('#duo')
@@ -230,6 +215,8 @@ duoPlayer.addEventListener('click', (event) => {
     game.start()
     game.ShuffleAtStart()
     game.multiplayerStart()
+    game.newPlayer()
+    game.OtherNewPlayer()
 })
 
 
@@ -238,3 +225,4 @@ resetButton.addEventListener('click', (event) => {
     event.preventDefault()
     game.reload()
 })
+
