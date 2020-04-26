@@ -76,7 +76,7 @@ const game = {
         const second = document.querySelector('#score2')
         if (this.activePlayer === this.players[0]) {
             this.activePlayer = this.players[1]
-            second.innerText = `${this.name}: ${this.activePlayer.score}`
+            second.innerText = `second player: ${this.activePlayer.score}`
         } else {
             this.activePlayer = this.players[0]
             printRounds.innerText = `first player: ${this.activePlayer.score}`
@@ -148,7 +148,7 @@ const game = {
             alert.hidden = false
             alert.innerText = "you won"
             clearInterval(this.intervalID)
-        } else if (this.timeElapsed === 30) {
+        } else if (this.timeElapsed === 60) {
             alert.hidden = false
             alert.innerText = "you lose"
             clearInterval(this.intervalID)
@@ -171,7 +171,7 @@ const game = {
         let mm = Math.floor(seconds / 60)
         let ss = seconds - (mm * 60)
         if (ss < 30) {
-            ss = "0" + ss
+            // ss = "0" + ss
         }
         p.innerHTML = `Game time: ${mm}:${ss}`
     },
